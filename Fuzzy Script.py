@@ -150,21 +150,21 @@ def fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingTh
  # Data Cleansing
  
  x = r'[A-Za-z0-9]+'
- 
+ table['unique_id'] = table.index
  table[['column']] = table[['column']].fillna('')
  table[['column_clean']] = table[['column']].apply(lambda x: re.sub(rx, '', str(x)).upper().strip())
      
     
 leftTableNameMatching = {
-    'leftTableName' : ['tablename'],
-    'leftTableData' : [tablename],
-    'leftTableNameField': [['column name']]
+    'leftTableName' : ['tablename'], # Can have multiple item in this list
+    'leftTableData' : [tablename], # Can have multiple item in this list
+    'leftTableNameField': [['column name']] # Can have multiple item in this list
 }
 
 rightTableNameMatching = {
-    'rightTableName' : ['tablename'],
-    'rightTableData' : [tablename],
-    'rightTableNameField': [['column name']]
+    'rightTableName' : ['tablename'], # Can have multiple item in this list
+    'rightTableData' : [tablename], # Can have multiple item in this list
+    'rightTableNameField': [['column name']] # Can have multiple item in this list
 }
 
 fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingThreshold, chunksizeBlkLst)
