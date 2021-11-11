@@ -154,20 +154,20 @@ def fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingTh
      df[[column]] = df[[column]].fillna('')
      cleanColName = column+'_Clean'
      df[[cleanColName]] = df[[column]].apply(lambda x: re.sub(rx, '', str(x)).upper().strip())
-     return df
+     return df, cleanColName
      
-tablename = clean(tablename)
+tablename, colname = clean(tablename)
             
 leftTableNameMatching = {
     'leftTableName' : ['tablename'], # Can have multiple item in this list
     'leftTableData' : [tablename], # Can have multiple item in this list
-    'leftTableNameField': [['clean column name']] # Can have multiple item in this list
+    'leftTableNameField': [[colname]] # Can have multiple item in this list
 }
 
 rightTableNameMatching = {
     'rightTableName' : ['tablename'], # Can have multiple item in this list
     'rightTableData' : [tablename], # Can have multiple item in this list
-    'rightTableNameField': [['clean column name']] # Can have multiple item in this list
+    'rightTableNameField': [[colname]] # Can have multiple item in this list
 }
 
 fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingThreshold, chunksizeBlkLst)
