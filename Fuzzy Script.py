@@ -62,6 +62,44 @@ def ngrams(string, n=3):
     
 # function for finding best match string            
 def tfidf_match(list1, list2):
+    
+    # Firstly use ngram to vectorize the word
+    # Then using those vectorized ngram, find their closest neighbor
+    
+    """
+    Example:
+    list1 = ['Hello', 'Hey']
+    list2 = ['Hey', 'yEllo']
+    
+    First we fit and transform the vectorizer model using the first list, and then using the same model we transform it with second list.
+    list1 will return 
+      (0, 6)	0.47107781233161794
+      (0, 5)	0.47107781233161794
+      (0, 3)	0.47107781233161794
+      (0, 1)	0.47107781233161794
+      (0, 0)	0.33517574332792605
+      (1, 4)	0.6316672017376245
+      (1, 2)	0.6316672017376245
+      (1, 0)	0.4494364165239821
+    
+    list2 will return the following matrix
+      (0, 4)	0.6316672017376245
+      (0, 2)	0.6316672017376245
+      (0, 0)	0.4494364165239821
+      (1, 6)	0.5773502691896257
+      (1, 5)	0.5773502691896257
+      (1, 3)	0.5773502691896257
+    
+    This is what available in our feature
+    vectorizer.get_feature_names()
+    [' He', 'Hel', 'Hey', 'ell', 'ey ', 'llo', 'lo ']
+    Note that yEllo only have 3 matrix score, because only 'ell', 'llo', 'lo ' exists in the feature list.
+    
+    With all these in place, we then use nearest neighbor to comapre each sparse matrix list1[0] with list2[0] and list2[1], and list1[1] with list2[0] and list2[1].
+    Applying this we will not need to compare word by word with loop, but a vectorized version of texts.
+    
+    We pick the closest one and then apply levenshtein score to create another scoring for filtering.
+    """
     vectorizer = TfidfVectorizer(analyzer=ngrams, lowercase=False)
     tfidf = vectorizer.fit_transform(list2)
     nbrs = NearestNeighbors(n_neighbors= 1, n_jobs= 1).fit(tfidf)
