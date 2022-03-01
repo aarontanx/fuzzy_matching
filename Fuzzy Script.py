@@ -41,7 +41,7 @@ def levenshtein_ratio(a,b):
             substitutions = previous_row[j] + (column1 != column2)
             current_row.append(min(insertions, deletions, substitutions))
         previous_row = current_row
-        ratio = (len(a)) + len(b) - previous_row[-1]) / (len(a) + len(b))
+        ratio = (len(a) + len(b) - previous_row[-1]) / (len(a) + len(b))
     return ratio
     
 ## Function for n-grams
