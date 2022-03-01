@@ -76,7 +76,7 @@ def fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingTh
         # Name Field add same suffix
         leftTableNameFieldList = [ i + '_Left_Table' for i in leftTableNameMatching['leftTableNameField'][i]]
         
-        leftDf = leftDf.copy() # Keep one set for joining later
+        leftDf = leftTable.copy() # Keep one set for joining later
         leftTable = leftTable[leftTableNameFieldList].drop_duplicates() # Remove Duplicates
         
         # Convert columns into one list
@@ -91,7 +91,7 @@ def fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingTh
             rightTable = rightTableNameMatching['rightTableData'][j].add_suffix('_right_Table').copy()
             rightTableNameFieldList = [ j + '_right_Table' for j in rightTableNameMatching['rightTableNameField'][j]]
             
-            rightDf = rightDf.copy() # Keep one set for joining later
+            rightDf = rightTable.copy() # Keep one set for joining later
             rightTable = rightTable[rightTableNameFieldList].drop_duplicates() # Remove Duplicates
             
             # Convert columns into list
