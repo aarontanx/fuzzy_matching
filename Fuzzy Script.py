@@ -58,7 +58,7 @@ def ngrams(string, n=3):
     string = ' '+ string + ' ' # pad
     string = re.sub(r'[,-./]|\sBD', r'', string)
     ngrams = zip(*[string[i:] for i in range(n)])
-    return [''.join(ngram) for ngram in ngrams)
+    return [''.join(ngram) for ngram in ngrams]
     
 # function for finding best match string            
 def tfidf_match(list1, list2):
