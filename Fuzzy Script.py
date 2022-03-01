@@ -60,7 +60,29 @@ def ngrams(string, n=3):
     ngrams = zip(*[string[i:] for i in range(n)])
     return [''.join(ngram) for ngram in ngrams)
     
+# function for finding best match string            
+def tfidf_match(list1, list2):
+    vectorizer = TfidfVectorizer(analyzer=ngrams, lowercase=False)
+    tfidf = vectorizer.fit_transform(list2)
+    nbrs = NearestNeighbors(n_neighbors= 1, n_jobs= 1).fit(tfidf)
+    distances, indices = nbrs.kneighbors(vectorizer.transform(list1))
+    
+    matches = [(round(distances[i][0], 2), list1[i], list2[j[0]]) for i, j in enumerate(indices)]
+    matches = pd.DataFrame(matches, columns=['score', 'original', 'matched'])
+    return matches
+            
+            
+ # Data Cleansing
+ def clean_data(df, column):       
+     rx = r'[A-Za-z0-9]+'
+     df['unique_id'] = df.index
+     df[[column]] = df[[column]].fillna('')
+     cleanColName = column+'_Clean'
+     df[[cleanColName]] = df[[column]].apply(lambda x: re.sub(rx, '', str(x)).upper().strip())
+     return df, cleanColName
 
+            
+       
 def fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingThreshold, chunksizeBlkLst):
     print('Starting Fuzzy Logic')
     
@@ -146,16 +168,8 @@ def fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingTh
             result.to_csv(output_path, header = True, index = False)
     print('End of Fuzzy Logic')
     
-    
- # Data Cleansing
- def clean_data(df, column):       
-     rx = r'[A-Za-z0-9]+'
-     df['unique_id'] = df.index
-     df[[column]] = df[[column]].fillna('')
-     cleanColName = column+'_Clean'
-     df[[cleanColName]] = df[[column]].apply(lambda x: re.sub(rx, '', str(x)).upper().strip())
-     return df, cleanColName
-     
+ 
+
 tablename, colname = clean(tablename)
             
 leftTableNameMatching = {
