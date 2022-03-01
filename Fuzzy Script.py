@@ -87,7 +87,7 @@ def fuzzyMatching(leftTableNameMatching, rightTableNameMatching, fuzzyMatchingTh
         del t
         
         for j in range(len(rightTableNameMatching['rightTableName'])):
-            rightTableName = leftTableNameMatching['leftTableName'][j]
+            rightTableName = rightTableNameMatching['rightTableName'][j]
             rightTable = rightTableNameMatching['rightTableData'][j].add_suffix('_right_Table').copy()
             rightTableNameFieldList = [ j + '_right_Table' for j in rightTableNameMatching['rightTableNameField'][j]]
             
