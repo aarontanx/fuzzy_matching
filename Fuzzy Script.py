@@ -49,12 +49,12 @@ def ngrams(string, n=3):
     string = string.encode("ascii", errors = "ignore").decode()
     string = string.lower()
     chars_to_remove = [')', '(', '.', '|', '[', ']', '{', '}', "'"]
-    rx = '[' + re.escape('', join(chars_to_remove)), ']'
+    rx = '[' + re.escape(''.join(chars_to_remove)) + ']'
     string = re.sub(rx, '', string) # remove the list of chars defined above
     string = string.replace('&', 'and')
     string = string.replace(',', ' ').replace('-', ' ')
     string = string.title() # Capital at start of each word
-    string = re.sub(' +', string).strip()
+    string = re.sub(' +', ' ',string).strip()
     string = ' '+ string + ' ' # pad
     string = re.sub(r'[,-./]|\sBD', r'', string)
     ngrams = zip(*[string[i:] for i in range(n)])
